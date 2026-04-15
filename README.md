@@ -42,21 +42,23 @@ curl -fsSL https://bun.sh/install | bash
 ### 3. 运行刷取脚本
 
 ```bash
-# 刷传奇龙
+# 刷传奇龙（命名参数）
+bun buddy-reroll.js --species dragon
+
+# 向后兼容位置参数
 bun buddy-reroll.js dragon
 
-# 刷传奇猫
-bun buddy-reroll.js cat
+# 指定最低稀有度 + 自定义 SALT
+bun buddy-reroll.js --species cat --min-rarity epic --salt friend-2026-401
 
-# 刷传奇幽灵
-bun buddy-reroll.js ghost
+# 增大搜索范围 (默认50万次)
+bun buddy-reroll.js --species dragon --max 1000000
 
-# 其他物种同理
-bun buddy-reroll.js <物种名>
-
-# 增大搜索范围 (默认50万次，通常几秒就能出 legendary)
-bun buddy-reroll.js dragon 1000000
+# 查看帮助
+bun buddy-reroll.js --help
 ```
+
+> **Node.js 用户**：如果用 npm 安装的 Claude Code，请使用 `node buddy-reroll-node.js` 代替 `bun buddy-reroll.js`，参数完全一致。
 
 输出示例：
 ```
@@ -97,6 +99,29 @@ userID: 4794e751b52e18dbd0a478aab3c8f6b9bf758405028cf5b2326e5e0941f7b4bc
 
 重复步骤 3-5 即可。每次生成新的 `userID` 就会得到不同的宠物。
 
+## 统一参数体系
+
+所有脚本共享统一的命名参数格式，支持 `--key value`、`--key=value`、`--boolean-flag` 以及向后兼容的位置参数。
+
+### 通用参数（所有脚本共享）
+
+| 参数 | 类型 | 默认值 | 说明 |
+|------|------|--------|------|
+| `--species` | string | dragon | 目标物种 |
+| `--min-rarity` | string | legendary | 最低目标稀有度 (common/uncommon/rare/epic/legendary) |
+| `--require-shiny` | boolean | false | 限定只搜索闪光个体 |
+| `--salt` | string | friend-2026-401 | 自定义 SALT 值（适配不同 Claude Code 版本） |
+| `--help` | boolean | false | 显示帮助信息 |
+
+### 脚本特有参数
+
+| 参数 | 适用脚本 | 类型 | 默认值 | 说明 |
+|------|----------|------|--------|------|
+| `--max` | buddy-reroll.js, buddy-reroll-node.js | number | 500000 | 最大尝试次数 |
+| `--timeout` | buddy-reroll-advanced.js, buddy-reroll-advanced-mt.js | number | 15/60 | 限时搜索秒数 |
+| `--threads` | buddy-reroll-advanced-mt.js, crack-universe.js | number | CPU核数 | 最大线程数 |
+| `--dump-stat` | crack-universe.js | string | SNARK | 短板属性 (DEBUGGING/PATIENCE/CHAOS/WISDOM/SNARK) |
+
 ## 🚀 进阶玩法：寻找极限神明宠物（属性全满/闪光）
 
 如果常规的传说级物种已经无法满足您，项目中现已新增了三款**全本地暴力破解级别**的底层验证脚本，能在极短时间内历遍上千万乃至整个 42.9亿 宇宙范围的 32 位数学随机种子，帮您找到满评的绝对天花板级面板！
@@ -108,34 +133,46 @@ userID: 4794e751b52e18dbd0a478aab3c8f6b9bf758405028cf5b2326e5e0941f7b4bc
 
 ### 进阶脚本列表
 
-1. **时间限定单核全开**： 
+1. **时间限定单核全开**：
    ```bash
-   # 用法: node buddy-reroll-advanced.js [物种: 默认dragon] [限时秒数: 默认15]
-   node buddy-reroll-advanced.js cat 20
+   node buddy-reroll-advanced.js --species cat --timeout 20
+   # 向后兼容: node buddy-reroll-advanced.js cat 20
    ```
    - **描述**：轻度压榨。通过极短的限时执行周期在主存中全力寻找出各项属性极高（总分逼近峰值）的传说闪光神宠，并在末尾一键自动替换至您的全局 `~/.claude.json` 环境。适合基础刷分尝试。
 
-2. **多核多线程狂飙极限压榨**： 
+2. **多核多线程狂飙极限压榨**：
    ```bash
-   # 用法: node buddy-reroll-advanced-mt.js [物种: 默认dragon] [限时秒数: 默认60] [最大线程数: 默认系统全核]
-   node buddy-reroll-advanced-mt.js ghost 60 16
+   node buddy-reroll-advanced-mt.js --species ghost --timeout 60 --threads 16
+   # 向后兼容: node buddy-reroll-advanced-mt.js ghost 60 16
    ```
    - **描述**：重度压榨。该方案直接调用您计算机目前物理层的可满载的全部 CPU 核心矩阵，在一个长时连轴转的空间内跑出几亿次的运算并发力战！该策略仅推荐用来直接寻找极低概率（数亿分之一分布）的巅峰怪兽（比如 412 分的神级面板）。
 
-3. **真神·降维全量通算打击（终章）**： 
+3. **真神·降维全量通算打击（终章）**：
    ```bash
-   # 用法: node crack-universe.js [物种: 默认dragon] [要求垫底Dump的弱点属性: 默认SNARK] [最大线程数: 默认系统全核]
-   # 属性可选英文值: DEBUGGING(捉虫), PATIENCE(耐心), CHAOS(混沌), WISDOM(智慧), SNARK(吐槽)
-   node crack-universe.js duck WISDOM 16
+   node crack-universe.js --species duck --dump-stat WISDOM --threads 16
+   # 向后兼容: node crack-universe.js duck WISDOM 16
    ```
    - **描述**：破解终局核心法。彻底放弃掷骰子，直接在几十秒内拉满多线程降维排查并一览 42.9 亿个全宇宙空间的所有密码结果。
    - **效果**：不仅能锁定传说等级加闪光特性，更能**强制指派必定产生的缺陷弱点（Dump）**底层分布，找到在绝对物理真理下最高评分的造物主独孤防伪神宠 UID！
 
+### 进阶参数示例
+
+```bash
+# 只刷 epic 及以上的闪光龙（限时模式）
+node buddy-reroll-advanced.js --species dragon --min-rarity epic --require-shiny --timeout 30
+
+# 自定义 SALT 适配新版本
+node buddy-reroll-advanced-mt.js --species owl --salt new-salt-value --timeout 120 --threads 8
+
+# 全量搜索指定短板属性
+node crack-universe.js --species cat --dump-stat CHAOS --threads 16
+```
+
 ## 注意事项
 
-- `SALT = "friend-2026-401"` 基于 Claude Code 2.1.89-2.1.90，后续版本可能变化。
+- `SALT = "friend-2026-401"` 基于 Claude Code 2.1.89-2.1.90，后续版本可能变化。使用 `--salt` 参数可快速适配新版。
 - 使用第三方 API 代理（如 BigModel）时，buddy 的 reaction 回复功能可能不可用，但宠物本身正常显示。
-- 如果更新后 SALT 变了，需要用新版源码中的 SALT 重新运行脚本。
+- 如果更新后 SALT 变了，需要用 `--salt <新值>` 重新运行脚本。
 - **高负载警告：以上提到的三大进阶并发脚本，因为引擎需要吃满配置的所有线程池，在运行的长途数十秒内因严重压榨算力可能引起风扇转速猛增和轻微锁频卡顿属于正常现象，静候佳音即可。**
 
 ## ⚠️ 严正免责声明 (Disclaimer)
@@ -147,6 +184,6 @@ userID: 4794e751b52e18dbd0a478aab3c8f6b9bf758405028cf5b2326e5e0941f7b4bc
 2. **账号封禁及官方风控风险（首要免责）**
    本作突破原理直接依赖于干预并篡改了本地存放的 `~/.claude.json` 中的系统环境追踪码 `userID`。虽然目前研判其孤立存在，但在未来随着版本更迭，绝不排除 Anthropic 官方在云端加入遥测风控对强行干预该 ID 的用户实施制裁。由此引发的所有连带账号封禁、API 权限收回等严重后果，**全部均由操作者本人承担**。
 3. **硬件高温老化与烧损免责**
-   由于本项目的“进阶版”及“终章降维版”极度依赖暴力压榨芯片多核心算力强行突破了传统程序的负载墙进行极限寻址，运行时 CPU 极易顶满 100% 出现过热啸叫。因此造成的一切诸如 CPU 过热缩水、蓝屏、硬件烧毁或老化等实体金钱损失，由用户自主承担风险。
+   由于本项目的"进阶版"及"终章降维版"极度依赖暴力压榨芯片多核心算力强行突破了传统程序的负载墙进行极限寻址，运行时 CPU 极易顶满 100% 出现过热啸叫。因此造成的一切诸如 CPU 过热缩水、蓝屏、硬件烧毁或老化等实体金钱损失，由用户自主承担风险。
 4. **非官方授权性质**
    本仓库以及代码属于纯野生逆向民间娱乐项目，绝非官方产品。代码生效存在时效性与不确定性，请三思而行！
