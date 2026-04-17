@@ -47,3 +47,4 @@ php -S localhost:8000 -t web
 - 建议最大尝试次数不超过 100 万次
 - 搜索完成后，复制 userID 并按主 README 的说明配置到 `~/.claude.json`
 
+
