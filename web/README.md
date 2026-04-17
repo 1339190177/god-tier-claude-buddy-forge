@@ -46,3 +46,4 @@ php -S localhost:8000 -t web
 - 搜索过程在浏览器中进行，大型搜索会占用 CPU 资源
 - 建议最大尝试次数不超过 100 万次
 - 搜索完成后，复制 userID 并按主 README 的说明配置到 `~/.claude.json`
+
