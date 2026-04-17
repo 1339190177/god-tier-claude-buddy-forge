@@ -7,3 +7,4 @@ web-ui-*.png
 
 # Playwright MCP
 .playwright-mcp/
+/people/
