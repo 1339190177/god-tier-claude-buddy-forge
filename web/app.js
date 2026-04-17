@@ -3,17 +3,7 @@
  * 使用 FNV-1a 哈希算法（适用于 npm 安装的 Claude Code）
  */
 
-// 常量定义（与 lib/constants.js 一致）
-const SPECIES = [
-  'duck', 'goose', 'blob', 'cat', 'dragon', 'octopus', 'owl',
-  'penguin', 'turtle', 'snail', 'ghost', 'axolotl', 'capybara',
-  'cactus', 'robot', 'rabbit', 'mushroom', 'chonk',
-];
-
-const RARITIES = ['common', 'uncommon', 'rare', 'epic', 'legendary'];
-const RARITY_WEIGHTS = { common: 60, uncommon: 25, rare: 10, epic: 4, legendary: 1 };
-const RARITY_RANK = { common: 0, uncommon: 1, rare: 2, epic: 3, legendary: 4 };
-const RARITY_FLOOR = { common: 5, uncommon: 15, rare: 25, epic: 35, legendary: 50 };
+// 常量定义（用于显示属性）
 const STAT_NAMES = ['DEBUGGING', 'PATIENCE', 'CHAOS', 'WISDOM', 'SNARK'];
 
 // DOM 元素
@@ -157,7 +147,9 @@ function updateResultDisplay() {
   }
 
   elements.resultSection.style.display = 'block';
-  elements.resultContent.innerHTML = bestResults.map((result, index) => createResultCard(result, index)).join('');
+  elements.resultContent.innerHTML = bestResults
+    .map((result, index) => createResultCard(result, index))
+    .join('');
 
   // 添加复制按钮事件
   document.querySelectorAll('.copy-btn').forEach(btn => {
@@ -170,13 +162,20 @@ function createResultCard(result, index) {
   const { species, rarity, shiny, stats, userID } = result;
 
   const rarityClass = rarity.toLowerCase();
-  const shinyBadge = shiny ? '<span class="result-badge badge-shiny">✨ Shiny</span>' : '';
+  const shinyBadge = shiny
+    ? '<span class="result-badge badge-shiny">✨ Shiny</span>'
+    : '';
   const peakStat = Object.entries(stats).sort((a, b) => b[1] - a[1])[0];
   const dumpStat = Object.entries(stats).sort((a, b) => a[1] - b[1])[0];
 
   const statsHtml = STAT_NAMES.map(name => {
     const value = stats[name];
-    const statClass = name === peakStat[0] ? 'stat-peak' : name === dumpStat[0] ? 'stat-dump' : '';
+    const statClass =
+      name === peakStat[0]
+        ? 'stat-peak'
+        : name === dumpStat[0]
+          ? 'stat-dump'
+          : '';
     return `
       <div class="stat-item">
         <div class="stat-name">${name}</div>
@@ -206,10 +205,24 @@ function createResultCard(result, index) {
 // 获取物种 emoji
 function getSpeciesEmoji(species) {
   const emojis = {
-    duck: '🦆', goose: '🪿', blob: '🫧', cat: '🐱', dragon: '🐉',
-    octopus: '🐙', owl: '🦉', penguin: '🐧', turtle: '🐢', snail: '🐌',
-    ghost: '👻', axolotl: '🦎', capybara: '🦫', cactus: '🌵',
-    robot: '🤖', rabbit: '🐰', mushroom: '🍄', chonk: '🐱'
+    duck: '🦆',
+    goose: '🪿',
+    blob: '🫧',
+    cat: '🐱',
+    dragon: '🐉',
+    octopus: '🐙',
+    owl: '🦉',
+    penguin: '🐧',
+    turtle: '🐢',
+    snail: '🐌',
+    ghost: '👻',
+    axolotl: '🦎',
+    capybara: '🦫',
+    cactus: '🌵',
+    robot: '🤖',
+    rabbit: '🐰',
+    mushroom: '🍄',
+    chonk: '🐱',
   };
   return emojis[species] || '🐾';
 }
@@ -219,21 +232,24 @@ function handleCopy(e) {
   const btn = e.target;
   const userID = btn.dataset.userid;
 
-  navigator.clipboard.writeText(userID).then(() => {
-    btn.textContent = '✅ 已复制';
-    btn.classList.add('copied');
-    setTimeout(() => {
-      btn.textContent = '📋 复制';
-      btn.classList.remove('copied');
-    }, 2000);
-  }).catch(() => {
-    // 降级方案
-    const input = btn.previousElementSibling;
-    input.select();
-    document.execCommand('copy');
-    btn.textContent = '✅ 已复制';
-    setTimeout(() => btn.textContent = '📋 复制', 2000);
-  });
+  navigator.clipboard
+    .writeText(userID)
+    .then(() => {
+      btn.textContent = '✅ 已复制';
+      btn.classList.add('copied');
+      setTimeout(() => {
+        btn.textContent = '📋 复制';
+        btn.classList.remove('copied');
+      }, 2000);
+    })
+    .catch(() => {
+      // 降级方案
+      const input = btn.previousElementSibling;
+      input.select();
+      document.execCommand('copy');
+      btn.textContent = '✅ 已复制';
+      setTimeout(() => (btn.textContent = '📋 复制'), 2000);
+    });
 }
 
 // 更新用时

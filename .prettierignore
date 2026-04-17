@@ -1,0 +1,7 @@
+# 忽略不需要格式化的文件
+node_modules/
+.git/
+*.log
+coverage/
+dist/
+build/

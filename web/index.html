@@ -1,143 +1,190 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="zh-CN">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Claude Buddy 宠物生成器</title>
-  <link rel="stylesheet" href="style.css">
-</head>
-<body>
-  <div class="container">
-    <header>
-      <h1>🐾 Claude Buddy 宠物生成器</h1>
-      <p class="subtitle">Web 可视化界面 — 无需命令行，一键生成完美宠物</p>
-    </header>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Claude Buddy 宠物生成器</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="container">
+      <header>
+        <h1>🐾 Claude Buddy 宠物生成器</h1>
+        <p class="subtitle">Web 可视化界面 — 无需命令行，一键生成完美宠物</p>
+      </header>
 
-    <main>
-      <!-- 参数输入区 -->
-      <section class="params-section">
-        <h2>🎯 搜索参数</h2>
+      <main>
+        <!-- 参数输入区 -->
+        <section class="params-section">
+          <h2>🎯 搜索参数</h2>
 
-        <div class="form-group">
-          <label for="species">物种选择</label>
-          <select id="species">
-            <option value="duck">🦆 Duck (鸭子)</option>
-            <option value="goose">🪿 Goose (鹅)</option>
-            <option value="blob">🫧 Blob (史莱姆)</option>
-            <option value="cat">🐱 Cat (猫)</option>
-            <option value="dragon" selected>🐉 Dragon (龙)</option>
-            <option value="octopus">🐙 Octopus (章鱼)</option>
-            <option value="owl">🦉 Owl (猫头鹰)</option>
-            <option value="penguin">🐧 Penguin (企鹅)</option>
-            <option value="turtle">🐢 Turtle (乌龟)</option>
-            <option value="snail">🐌 Snail (蜗牛)</option>
-            <option value="ghost">👻 Ghost (幽灵)</option>
-            <option value="axolotl">🦎 Axolotl (蝾螈)</option>
-            <option value="capybara">🦫 Capybara (水豚)</option>
-            <option value="cactus">🌵 Cactus (仙人掌)</option>
-            <option value="robot">🤖 Robot (机器人)</option>
-            <option value="rabbit">🐰 Rabbit (兔子)</option>
-            <option value="mushroom">🍄 Mushroom (蘑菇)</option>
-            <option value="chonk">🐱 Chonk (胖猫)</option>
-          </select>
-        </div>
-
-        <div class="form-group">
-          <label>最低稀有度</label>
-          <div class="radio-group">
-            <label><input type="radio" name="rarity" value="common"> Common (普通)</label>
-            <label><input type="radio" name="rarity" value="uncommon"> Uncommon (优秀)</label>
-            <label><input type="radio" name="rarity" value="rare"> Rare (稀有)</label>
-            <label><input type="radio" name="rarity" value="epic"> Epic (史诗)</label>
-            <label><input type="radio" name="rarity" value="legendary" checked> Legendary (传说)</label>
+          <div class="form-group">
+            <label for="species">物种选择</label>
+            <select id="species">
+              <option value="duck">🦆 Duck (鸭子)</option>
+              <option value="goose">🪿 Goose (鹅)</option>
+              <option value="blob">🫧 Blob (史莱姆)</option>
+              <option value="cat">🐱 Cat (猫)</option>
+              <option value="dragon" selected>🐉 Dragon (龙)</option>
+              <option value="octopus">🐙 Octopus (章鱼)</option>
+              <option value="owl">🦉 Owl (猫头鹰)</option>
+              <option value="penguin">🐧 Penguin (企鹅)</option>
+              <option value="turtle">🐢 Turtle (乌龟)</option>
+              <option value="snail">🐌 Snail (蜗牛)</option>
+              <option value="ghost">👻 Ghost (幽灵)</option>
+              <option value="axolotl">🦎 Axolotl (蝾螈)</option>
+              <option value="capybara">🦫 Capybara (水豚)</option>
+              <option value="cactus">🌵 Cactus (仙人掌)</option>
+              <option value="robot">🤖 Robot (机器人)</option>
+              <option value="rabbit">🐰 Rabbit (兔子)</option>
+              <option value="mushroom">🍄 Mushroom (蘑菇)</option>
+              <option value="chonk">🐱 Chonk (胖猫)</option>
+            </select>
           </div>
-        </div>
 
-        <div class="form-group checkbox-group">
-          <label>
-            <input type="checkbox" id="shiny">
-            <span>✨ 只要闪光个体 (Shiny Only)</span>
-          </label>
-        </div>
-
-        <div class="form-group">
-          <label for="salt">SALT (种子盐值)</label>
-          <input type="text" id="salt" value="friend-2026-401" placeholder="friend-2026-401">
-          <small>默认值适用于 Claude Code 2.1.89-2.1.90</small>
-        </div>
-
-        <div class="form-group">
-          <label for="maxAttempts">最大尝试次数</label>
-          <input type="number" id="maxAttempts" value="500000" min="1000" max="10000000" step="1000">
-          <small>默认 50 万次，最大 1000 万次</small>
-        </div>
-      </section>
-
-      <!-- 控制按钮区 -->
-      <section class="control-section">
-        <button id="startBtn" class="btn btn-primary">🚀 开始搜索</button>
-        <button id="stopBtn" class="btn btn-secondary" disabled>⏹ 停止搜索</button>
-      </section>
-
-      <!-- 状态显示区 -->
-      <section class="status-section">
-        <h2>📊 搜索状态</h2>
-        <div class="status-grid">
-          <div class="status-item">
-            <span class="status-label">状态</span>
-            <span id="statusText" class="status-value">就绪</span>
+          <div class="form-group">
+            <label>最低稀有度</label>
+            <div class="radio-group">
+              <label
+                ><input type="radio" name="rarity" value="common" /> Common
+                (普通)</label
+              >
+              <label
+                ><input type="radio" name="rarity" value="uncommon" /> Uncommon
+                (优秀)</label
+              >
+              <label
+                ><input type="radio" name="rarity" value="rare" /> Rare
+                (稀有)</label
+              >
+              <label
+                ><input type="radio" name="rarity" value="epic" /> Epic
+                (史诗)</label
+              >
+              <label
+                ><input type="radio" name="rarity" value="legendary" checked />
+                Legendary (传说)</label
+              >
+            </div>
           </div>
-          <div class="status-item">
-            <span class="status-label">已尝试</span>
-            <span id="attempts" class="status-value">0</span>
-          </div>
-          <div class="status-item">
-            <span class="status-label">找到数量</span>
-            <span id="found" class="status-value">0</span>
-          </div>
-          <div class="status-item">
-            <span class="status-label">用时</span>
-            <span id="elapsed" class="status-value">0.0s</span>
-          </div>
-        </div>
-        <div class="progress-bar">
-          <div id="progressFill" class="progress-fill" style="width: 0%"></div>
-        </div>
-      </section>
 
-      <!-- 结果显示区 -->
-      <section class="result-section" id="resultSection" style="display: none;">
-        <h2>🎉 搜索结果</h2>
-        <div id="resultContent"></div>
-      </section>
+          <div class="form-group checkbox-group">
+            <label>
+              <input type="checkbox" id="shiny" />
+              <span>✨ 只要闪光个体 (Shiny Only)</span>
+            </label>
+          </div>
 
-      <!-- 使用说明区 -->
-      <section class="help-section">
-        <details>
-          <summary>📖 如何使用生成的 userID？</summary>
-          <ol>
-            <li>复制上方找到的 <code>userID</code></li>
-            <li>打开文件 <code>~/.claude.json</code> (Mac/Linux) 或 <code>%USERPROFILE%\.claude.json</code> (Windows)</li>
-            <li>删除 <code>companion</code> 字段（如果存在）</li>
-            <li>删除旧的 <code>userID</code> 字段（如果存在）</li>
-            <li>添加新的 <code>userID</code>：
-              <pre><code>{
+          <div class="form-group">
+            <label for="salt">SALT (种子盐值)</label>
+            <input
+              type="text"
+              id="salt"
+              value="friend-2026-401"
+              placeholder="friend-2026-401"
+            />
+            <small>默认值适用于 Claude Code 2.1.89-2.1.90</small>
+          </div>
+
+          <div class="form-group">
+            <label for="maxAttempts">最大尝试次数</label>
+            <input
+              type="number"
+              id="maxAttempts"
+              value="500000"
+              min="1000"
+              max="10000000"
+              step="1000"
+            />
+            <small>默认 50 万次，最大 1000 万次</small>
+          </div>
+        </section>
+
+        <!-- 控制按钮区 -->
+        <section class="control-section">
+          <button id="startBtn" class="btn btn-primary">🚀 开始搜索</button>
+          <button id="stopBtn" class="btn btn-secondary" disabled>
+            ⏹ 停止搜索
+          </button>
+        </section>
+
+        <!-- 状态显示区 -->
+        <section class="status-section">
+          <h2>📊 搜索状态</h2>
+          <div class="status-grid">
+            <div class="status-item">
+              <span class="status-label">状态</span>
+              <span id="statusText" class="status-value">就绪</span>
+            </div>
+            <div class="status-item">
+              <span class="status-label">已尝试</span>
+              <span id="attempts" class="status-value">0</span>
+            </div>
+            <div class="status-item">
+              <span class="status-label">找到数量</span>
+              <span id="found" class="status-value">0</span>
+            </div>
+            <div class="status-item">
+              <span class="status-label">用时</span>
+              <span id="elapsed" class="status-value">0.0s</span>
+            </div>
+          </div>
+          <div class="progress-bar">
+            <div
+              id="progressFill"
+              class="progress-fill"
+              style="width: 0%"
+            ></div>
+          </div>
+        </section>
+
+        <!-- 结果显示区 -->
+        <section
+          class="result-section"
+          id="resultSection"
+          style="display: none"
+        >
+          <h2>🎉 搜索结果</h2>
+          <div id="resultContent"></div>
+        </section>
+
+        <!-- 使用说明区 -->
+        <section class="help-section">
+          <details>
+            <summary>📖 如何使用生成的 userID？</summary>
+            <ol>
+              <li>复制上方找到的 <code>userID</code></li>
+              <li>
+                打开文件 <code>~/.claude.json</code> (Mac/Linux) 或
+                <code>%USERPROFILE%\.claude.json</code> (Windows)
+              </li>
+              <li>删除 <code>companion</code> 字段（如果存在）</li>
+              <li>删除旧的 <code>userID</code> 字段（如果存在）</li>
+              <li>
+                添加新的 <code>userID</code>：
+                <pre><code>{
   "userID": "复制的userID粘贴在这里"
 }</code></pre>
-            </li>
-            <li>重启 Claude Code</li>
-            <li>运行命令 <code>/buddy</code> 领取你的宠物！</li>
-          </ol>
-        </details>
-      </section>
-    </main>
+              </li>
+              <li>重启 Claude Code</li>
+              <li>运行命令 <code>/buddy</code> 领取你的宠物！</li>
+            </ol>
+          </details>
+        </section>
+      </main>
 
-    <footer>
-      <p>⚠️ 本工具仅供学术研究与娱乐使用。请勿用于商业用途。</p>
-      <p><a href="https://github.com/1339190177/god-tier-claude-buddy-forge" target="_blank">GitHub 仓库</a></p>
-    </footer>
-  </div>
+      <footer>
+        <p>⚠️ 本工具仅供学术研究与娱乐使用。请勿用于商业用途。</p>
+        <p>
+          <a
+            href="https://github.com/1339190177/god-tier-claude-buddy-forge"
+            target="_blank"
+            >GitHub 仓库</a
+          >
+        </p>
+      </footer>
+    </div>
 
-  <script src="app.js"></script>
-</body>
+    <script src="app.js"></script>
+  </body>
 </html>

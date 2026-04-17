@@ -1,0 +1,35 @@
+{
+  "name": "claude-buddy-universe-cracker",
+  "version": "1.0.0",
+  "description": "Claude Code /buddy 宠物刷取工具 - 帮你在 /buddy 中刷到想要的传奇宠物",
+  "type": "commonjs",
+  "main": "lib/rng.js",
+  "scripts": {
+    "lint": "eslint . --ext .js",
+    "lint:fix": "eslint . --ext .js --fix",
+    "format": "prettier --write \"**/*.{js,json,md,css,html}\"",
+    "format:check": "prettier --check \"**/*.{js,json,md,css,html}\"",
+    "type-check": "tsc --noEmit",
+    "test": "npm run lint && npm run format:check",
+    "prepare": "husky || true"
+  },
+  "keywords": [
+    "claude-code",
+    "buddy",
+    "pet",
+    "generator",
+    "fnv-1a"
+  ],
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/node": "^20.11.0",
+    "eslint": "^8.56.0",
+    "prettier": "^3.2.4",
+    "typescript": "^5.3.3"
+  },
+  "engines": {
+    "node": ">=16.0.0",
+    "bun": ">=1.0.0"
+  }
+}
