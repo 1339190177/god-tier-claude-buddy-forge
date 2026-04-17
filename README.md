@@ -99,6 +99,29 @@ userID: 4794e751b52e18dbd0a478aab3c8f6b9bf758405028cf5b2326e5e0941f7b4bc
 
 重复步骤 3-5 即可。每次生成新的 `userID` 就会得到不同的宠物。
 
+## 🌐 Web 可视化界面（无需命令行）
+
+如果你不熟悉命令行，可以使用 Web 可视化界面：
+
+```bash
+# 启动本地服务器
+cd web
+python -m http.server 8000
+# 或使用 Node.js: npx serve web -p 8000
+```
+
+然后在浏览器打开 http://localhost:8000
+
+**功能特点**：
+- 18 种物种下拉选择
+- 稀有度和闪光选项可视化配置
+- 实时搜索进度显示
+- 一键复制 userID
+
+> **注意**：Web 界面使用 FNV-1a 哈希算法，适用于 **npm 安装的 Claude Code**。如果使用原生安装（Bun 版本），请使用 CLI 工具。
+
+详细说明请查看 [web/README.md](web/README.md)
+
 ## 统一参数体系
 
 所有脚本共享统一的命名参数格式，支持 `--key value`、`--key=value`、`--boolean-flag` 以及向后兼容的位置参数。

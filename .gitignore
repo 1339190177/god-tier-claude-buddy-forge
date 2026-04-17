@@ -1,3 +1,9 @@
 .idea/
 .vscode/
 temp_new.json
+
+# Web UI screenshots
+web-ui-*.png
+
+# Playwright MCP
+.playwright-mcp/
