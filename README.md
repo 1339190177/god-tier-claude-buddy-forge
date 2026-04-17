@@ -17,13 +17,13 @@ cactus  robot  rabbit  mushroom  chonk
 
 ## 稀有度
 
-| 稀有度 | 概率 |
-|--------|------|
-| common | 60% |
-| uncommon | 25% |
-| rare | 10% |
-| epic | 4% |
-| legendary | 1% |
+| 稀有度    | 概率 |
+| --------- | ---- |
+| common    | 60%  |
+| uncommon  | 25%  |
+| rare      | 10%  |
+| epic      | 4%   |
+| legendary | 1%   |
 
 ## 步骤
 
@@ -61,6 +61,7 @@ bun buddy-reroll.js --help
 > **Node.js 用户**：如果用 npm 安装的 Claude Code，请使用 `node buddy-reroll-node.js` 代替 `bun buddy-reroll.js`，参数完全一致。
 
 输出示例：
+
 ```
 found: uncommon dragon -> c3353bb4...
 found: rare dragon -> 7de701d1...
@@ -113,6 +114,7 @@ python -m http.server 8000
 然后在浏览器打开 http://localhost:8000
 
 **功能特点**：
+
 - 18 种物种下拉选择
 - 稀有度和闪光选项可视化配置
 - 实时搜索进度显示
@@ -128,28 +130,29 @@ python -m http.server 8000
 
 ### 通用参数（所有脚本共享）
 
-| 参数 | 类型 | 默认值 | 说明 |
-|------|------|--------|------|
-| `--species` | string | dragon | 目标物种 |
-| `--min-rarity` | string | legendary | 最低目标稀有度 (common/uncommon/rare/epic/legendary) |
-| `--require-shiny` | boolean | false | 限定只搜索闪光个体 |
-| `--salt` | string | friend-2026-401 | 自定义 SALT 值（适配不同 Claude Code 版本） |
-| `--help` | boolean | false | 显示帮助信息 |
+| 参数              | 类型    | 默认值          | 说明                                                 |
+| ----------------- | ------- | --------------- | ---------------------------------------------------- |
+| `--species`       | string  | dragon          | 目标物种                                             |
+| `--min-rarity`    | string  | legendary       | 最低目标稀有度 (common/uncommon/rare/epic/legendary) |
+| `--require-shiny` | boolean | false           | 限定只搜索闪光个体                                   |
+| `--salt`          | string  | friend-2026-401 | 自定义 SALT 值（适配不同 Claude Code 版本）          |
+| `--help`          | boolean | false           | 显示帮助信息                                         |
 
 ### 脚本特有参数
 
-| 参数 | 适用脚本 | 类型 | 默认值 | 说明 |
-|------|----------|------|--------|------|
-| `--max` | buddy-reroll.js, buddy-reroll-node.js | number | 500000 | 最大尝试次数 |
-| `--timeout` | buddy-reroll-advanced.js, buddy-reroll-advanced-mt.js | number | 15/60 | 限时搜索秒数 |
-| `--threads` | buddy-reroll-advanced-mt.js, crack-universe.js | number | CPU核数 | 最大线程数 |
-| `--dump-stat` | crack-universe.js | string | SNARK | 短板属性 (DEBUGGING/PATIENCE/CHAOS/WISDOM/SNARK) |
+| 参数          | 适用脚本                                              | 类型   | 默认值  | 说明                                             |
+| ------------- | ----------------------------------------------------- | ------ | ------- | ------------------------------------------------ |
+| `--max`       | buddy-reroll.js, buddy-reroll-node.js                 | number | 500000  | 最大尝试次数                                     |
+| `--timeout`   | buddy-reroll-advanced.js, buddy-reroll-advanced-mt.js | number | 15/60   | 限时搜索秒数                                     |
+| `--threads`   | buddy-reroll-advanced-mt.js, crack-universe.js        | number | CPU核数 | 最大线程数                                       |
+| `--dump-stat` | crack-universe.js                                     | string | SNARK   | 短板属性 (DEBUGGING/PATIENCE/CHAOS/WISDOM/SNARK) |
 
 ## 🚀 进阶玩法：寻找极限神明宠物（属性全满/闪光）
 
 如果常规的传说级物种已经无法满足您，项目中现已新增了三款**全本地暴力破解级别**的底层验证脚本，能在极短时间内历遍上千万乃至整个 42.9亿 宇宙范围的 32 位数学随机种子，帮您找到满评的绝对天花板级面板！
 
 ### 硬件要求 (Hardware Requirements)
+
 - **处理器 (CPU)**：十分消耗核心数与多线程压榨性能。推荐至少使用 **8核/16线程** 的现代级高性能 CPU（例如 Intel i7-11700K / Ryzen 7 5800X 及以上），只有高主频的 CPU 才能支撑上亿次不掉帧的 FNV-1a 并行哈希计算，算力偏低可能会引起等待时间的成倍增加。
 - **内存 (RAM)**：消耗正常，无大量持续占用，预留 4GB 空闲内存即可。
 - **环境要求**: 原生支持 Node.js 环境运行，建议使用 Node.js v16 及以上版本，从而充分利用 V8 JIT 引擎编译带来的优化。
@@ -157,24 +160,30 @@ python -m http.server 8000
 ### 进阶脚本列表
 
 1. **时间限定单核全开**：
+
    ```bash
    node buddy-reroll-advanced.js --species cat --timeout 20
    # 向后兼容: node buddy-reroll-advanced.js cat 20
    ```
+
    - **描述**：轻度压榨。通过极短的限时执行周期在主存中全力寻找出各项属性极高（总分逼近峰值）的传说闪光神宠，并在末尾一键自动替换至您的全局 `~/.claude.json` 环境。适合基础刷分尝试。
 
 2. **多核多线程狂飙极限压榨**：
+
    ```bash
    node buddy-reroll-advanced-mt.js --species ghost --timeout 60 --threads 16
    # 向后兼容: node buddy-reroll-advanced-mt.js ghost 60 16
    ```
+
    - **描述**：重度压榨。该方案直接调用您计算机目前物理层的可满载的全部 CPU 核心矩阵，在一个长时连轴转的空间内跑出几亿次的运算并发力战！该策略仅推荐用来直接寻找极低概率（数亿分之一分布）的巅峰怪兽（比如 412 分的神级面板）。
 
 3. **真神·降维全量通算打击（终章）**：
+
    ```bash
    node crack-universe.js --species duck --dump-stat WISDOM --threads 16
    # 向后兼容: node crack-universe.js duck WISDOM 16
    ```
+
    - **描述**：破解终局核心法。彻底放弃掷骰子，直接在几十秒内拉满多线程降维排查并一览 42.9 亿个全宇宙空间的所有密码结果。
    - **效果**：不仅能锁定传说等级加闪光特性，更能**强制指派必定产生的缺陷弱点（Dump）**底层分布，找到在绝对物理真理下最高评分的造物主独孤防伪神宠 UID！
 
@@ -198,6 +207,146 @@ node crack-universe.js --species cat --dump-stat CHAOS --threads 16
 - 如果更新后 SALT 变了，需要用 `--salt <新值>` 重新运行脚本。
 - **高负载警告：以上提到的三大进阶并发脚本，因为引擎需要吃满配置的所有线程池，在运行的长途数十秒内因严重压榨算力可能引起风扇转速猛增和轻微锁频卡顿属于正常现象，静候佳音即可。**
 
+## 📁 项目结构
+
+```
+claude-buddy-universe-cracker/
+├── lib/                      # 核心库模块
+│   ├── constants.js          # 常量定义（物种、稀有度、属性等）
+│   ├── rng.js                # 随机数生成器和哈希函数
+│   └── args-parser.js        # 统一命令行参数解析器
+│
+├── web/                      # Web 可视化界面
+│   ├── index.html            # 主页面
+│   ├── style.css             # 样式表
+│   ├── app.js                # 主程序逻辑
+│   ├── worker.js             # Web Worker 搜索线程
+│   └── README.md             # Web 界面说明文档
+│
+├── types/                    # TypeScript 类型定义
+│   └── index.d.ts            # 项目类型声明文件
+│
+├── buddy-reroll.js           # Bun 运行时基础脚本
+├── buddy-reroll-node.js      # Node.js 基础脚本（FNV-1a）
+├── buddy-reroll-advanced.js  # 进阶单线程限时搜索
+├── buddy-reroll-advanced-mt.js # 进阶多线程限时搜索
+├── crack-universe.js         # 全量宇宙搜索（终章）
+│
+├── package.json              # 项目配置和依赖
+├── tsconfig.json             # TypeScript 配置
+├── .eslintrc.js              # ESLint 代码规范配置
+├── .prettierrc               # Prettier 格式化配置
+├── README.md                 # 本文档
+└── VERIFICATION.md           # 验证文档
+```
+
+### 模块说明
+
+#### 核心库 (lib/)
+
+- **constants.js**: 定义所有游戏常量，包括物种列表、稀有度、权重、属性名等
+- **rng.js**: 实现随机数生成算法
+  - `mulberry32()`: Mulberry32 PRNG 算法
+  - `hashStringFnv1a()`: FNV-1a 哈希（npm 版 Claude Code）
+  - `hashStringBun()`: Bun.hash 包装器（原生版 Claude Code）
+  - `rollRarity()`: 根据权重随机选择稀有度
+  - `rollStats()`: 生成宠物属性值
+- **args-parser.js**: 统一的命令行参数解析器，支持命名参数和位置参数
+
+#### Web 界面 (web/)
+
+- 使用 Web Worker 在后台执行搜索，避免阻塞 UI
+- 实时显示搜索进度和结果
+- 支持所有搜索参数配置
+- 使用 FNV-1a 哈希算法（适用于 npm 安装的 Claude Code）
+
+#### 类型定义 (types/)
+
+- `index.d.ts`: 提供完整的 TypeScript 类型定义
+  - 物种、稀有度、属性名等类型
+  - 函数参数和返回值类型
+  - 命令行参数类型
+  - 搜索结果类型
+
+## 🛠️ 开发指南
+
+### 环境要求
+
+- Node.js >= 16.0.0
+- Bun >= 1.0.0（用于运行 buddy-reroll.js）
+
+### 安装依赖
+
+```bash
+npm install
+```
+
+### 开发命令
+
+```bash
+# 运行代码检查
+npm run lint
+
+# 自动修复代码风格问题
+npm run lint:fix
+
+# 格式化代码
+npm run format
+
+# 检查代码格式（不修改）
+npm run format:check
+
+# TypeScript 类型检查
+npm run type-check
+
+# 运行所有测试
+npm test
+```
+
+### 代码规范
+
+- **JavaScript**: 使用 ESLint 进行代码检查，遵循项目配置的规则
+- **格式化**: 使用 Prettier 统一代码格式
+- **类型**: 使用 TypeScript 进行类型检查（通过 JSDoc 注释）
+- **注释**: 核心函数必须包含 JSDoc 注释，说明用途、参数和返回值
+
+### 添加新的物种或属性
+
+1. 编辑 `lib/constants.js`，修改相应的常量数组
+2. 运行 `npm run format` 格式化代码
+3. 运行 `npm run lint` 确保代码符合规范
+4. 测试修改后的脚本
+
+### 贡献流程
+
+1. Fork 本仓库
+2. 创建特性分支 (`git checkout -b feature/amazing-feature`)
+3. 提交更改 (`git commit -m 'Add some amazing feature'`)
+4. 推送到分支 (`git push origin feature/amazing-feature`)
+5. 创建 Pull Request
+
+### 测试
+
+修改代码后，请确保：
+
+1. CLI 脚本正常运行
+
+   ```bash
+   bun buddy-reroll.js --species dragon --max 1000
+   node buddy-reroll-node.js --species dragon --max 1000
+   ```
+
+2. Web 界面正常工作
+
+   ```bash
+   cd web && python -m http.server 8000
+   ```
+
+3. 所有 lint 检查通过
+   ```bash
+   npm run lint
+   ```
+
 ## ⚠️ 严正免责声明 (Disclaimer)
 
 **在使用本库内任何穷举脚本及漏洞突破方案前，请务必知晓并同意以下所有条款。若由于使用本项目而引发任何连带后果，开发者与该仓库概不负责：**
@@ -211,3 +360,4 @@ node crack-universe.js --species cat --dump-stat CHAOS --threads 16
 4. **非官方授权性质**
    本仓库以及代码属于纯野生逆向民间娱乐项目，绝非官方产品。代码生效存在时效性与不确定性，请三思而行！
 
+# Done - Issue #4

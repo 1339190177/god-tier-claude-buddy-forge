@@ -11,27 +11,27 @@ This verification confirms the implementation meets all acceptance criteria.
 
 ## Acceptance Criteria Verification
 
-| AC | Description | Status | Verification Method |
-|----|-------------|--------|---------------------|
-| AC1 | Unified CLI parameter parser across all scripts | PASS | --help output + source review |
-| AC2 | --min-rarity parameter (default: legendary) | PASS | resolveArgs unit test |
-| AC3 | --require-shiny boolean parameter (default: false) | PASS | resolveArgs unit test |
-| AC4 | --dump-stat parameter (crack-universe only, default: SNARK) | PASS | --help output + source review |
-| AC5 | --salt parameter (default: friend-2026-401) | PASS | resolveArgs unit test |
-| AC6 | --help on all scripts | PASS | 4 scripts executed |
+| AC  | Description                                                 | Status | Verification Method           |
+| --- | ----------------------------------------------------------- | ------ | ----------------------------- |
+| AC1 | Unified CLI parameter parser across all scripts             | PASS   | --help output + source review |
+| AC2 | --min-rarity parameter (default: legendary)                 | PASS   | resolveArgs unit test         |
+| AC3 | --require-shiny boolean parameter (default: false)          | PASS   | resolveArgs unit test         |
+| AC4 | --dump-stat parameter (crack-universe only, default: SNARK) | PASS   | --help output + source review |
+| AC5 | --salt parameter (default: friend-2026-401)                 | PASS   | resolveArgs unit test         |
+| AC6 | --help on all scripts                                       | PASS   | 4 scripts executed            |
 
 ## Test Case Results
 
-| TC | Description | Result |
-|----|-------------|--------|
-| TC1 | --help output complete with all params | PASS |
-| TC2 | --min-rarity uncommon filter | PASS |
-| TC3 | --require-shiny flag propagation | PASS |
-| TC4 | --dump-stat PATIENCE | PASS |
-| TC5 | --salt custom value | PASS |
-| TC6 | --species invalid error | PASS |
-| TC7 | --min-rarity invalid error | PASS |
-| TC8 | lib/args-parser.js module import | PASS |
+| TC  | Description                            | Result |
+| --- | -------------------------------------- | ------ |
+| TC1 | --help output complete with all params | PASS   |
+| TC2 | --min-rarity uncommon filter           | PASS   |
+| TC3 | --require-shiny flag propagation       | PASS   |
+| TC4 | --dump-stat PATIENCE                   | PASS   |
+| TC5 | --salt custom value                    | PASS   |
+| TC6 | --species invalid error                | PASS   |
+| TC7 | --min-rarity invalid error             | PASS   |
+| TC8 | lib/args-parser.js module import       | PASS   |
 
 ## Files Changed (via PR #3)
 
